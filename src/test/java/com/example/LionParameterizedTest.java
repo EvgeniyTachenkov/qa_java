@@ -1,35 +1,37 @@
 package com.example;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.mockito.Mockito;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
 public class LionParameterizedTest {
-    Feline feline = new Feline();
-    private final String sex;
-    private final boolean expected;
 
-    public LionParameterizedTest(String sex, boolean expected) {
+    private final Feline feline = Mockito.mock(Feline.class);
+    private final String sex;
+    private final Boolean result;
+
+    public LionParameterizedTest(String sex, Boolean result) {
         this.sex = sex;
-        this.expected = expected;
+        this.result = result;
     }
 
     @Parameterized.Parameters
-    public static Object[][] getGenderLionTest(){
-        return new Object[][] {
+    public static Object[][] getLionParameters() {
+        return new Object[][]{
                 {"Самец", true},
-                {"Самка", false},
-
+                {"Самка", false}
         };
     }
 
     @Test
-    public void lionTest() throws Exception{
+    public void lionHasMineTest() throws Exception {
 
-        Lion lion = new Lion(sex,feline);
-        boolean actual = lion.doesHaveMane();
-        Assert.assertEquals(expected, actual);
+        Lion lion = new Lion(sex, feline);
+        assertEquals(result, lion.doesHaveMane());
+
     }
 }
